@@ -77,4 +77,5 @@ nb-configuration.xml
 ## com.taivas.Application
 ##############################
 logs/
+plugins/
 /application.properties
