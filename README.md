@@ -27,7 +27,7 @@ To run MB2 Log Reader we first need to set up some infrastructure. We need:
 5. Put your plugins into the /plugins folder and restart the program or reload the plugins using the `/smod say !reload_plugins` in-game command!
 
 ## For plugin developers
-To get started developing plugins begin by setting up the required [mb2-plugin-lib](https://github.com/bully-mb2/mb2-log-reader-schema) and have a look at the [MB2 Plugin Example](https://github.com/bully-mb2/mb2-plugin-example)
+To get started developing plugins begin by setting up the required [mb2-plugin-lib](https://github.com/bully-mb2/mb2-plugin-lib) and have a look at the [MB2 Plugin Example](https://github.com/bully-mb2/mb2-plugin-example)
 
 ## License
 MB2 Plugin System is licensed under GPLv2 as free software. You are free to use, modify and redistribute MB2 Log Reader following the terms in LICENSE.txt
