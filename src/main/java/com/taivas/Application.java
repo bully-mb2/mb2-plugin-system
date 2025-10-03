@@ -4,7 +4,7 @@ import com.taivas.input.Input;
 import com.taivas.input.InputFactory;
 import com.taivas.input.NoInputFoundException;
 import com.taivas.parser.MBParser;
-import com.taivas.plugin.PluginManager;
+import com.taivas.plugin.MBPluginManager;
 import com.taivas.rcon.RconClient;
 import com.taivas.settings.Settings;
 import com.taivas.settings.SettingsBuilder;
@@ -40,8 +40,9 @@ public class Application {
 
         LOG.info("Loading plugins");
         String pluginPath = settings.get("plugin-system.plugin.path");
-        PluginManager pluginManager = new PluginManager(pluginPath);
-        pluginManager.reload(rcon, settings);
+        MBPluginManager pluginManager = new MBPluginManager(pluginPath);
+        pluginManager.initialize(rcon, settings);
+        pluginManager.startPlugins(rcon, settings);
 
         LOG.info("Loading parser");
         MBParser parser = new MBParser();

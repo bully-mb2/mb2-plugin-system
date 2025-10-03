@@ -1,8 +1,7 @@
 package com.taivas.parser;
 
-import com.taivas.mb2_plugin_lib.schema.ClientBeginEvent;
 import com.taivas.parser.events.*;
-import com.taivas.plugin.PluginManager;
+import com.taivas.plugin.MBPluginManager;
 import com.taivas.settings.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ public class MBParser {
         this.actions = new ArrayList<>();
     }
 
-    public void init(Settings settings, PluginManager pluginManager) {
+    public void init(Settings settings, MBPluginManager pluginManager) {
         LOG.info("Initializing actions");
         actions.clear();
         actions.add(new MBParseAction<>(new ClientBeginParser(), pluginManager::callClientBegin));

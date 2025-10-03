@@ -6,8 +6,12 @@ MB2 Plugin System is a lightweight log interpreter tailor-made for the [Movie Ba
 ```
     /smod say !plugins
         - List the currently loaded plugins in the in-game console
+    /smod say !start_plugins
+        - Start the plugin system (this will lock the plugin jars)
+    /smod say !stop_plugins
+        - Stop the plugin system so you can swap out plugin jars
     /smod say !reload_plugins
-        - Reloads all plugins
+        - Reloads all plugin configurations
 ```
 ## For server owners
 To run MB2 Log Reader we first need to set up some infrastructure. We need:

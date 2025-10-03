@@ -1,23 +1,22 @@
 package com.taivas.plugin;
 
-import com.taivas.input.UDPInput;
+
 import com.taivas.mb2_plugin_lib.schema.*;
 import com.taivas.rcon.RconClient;
 import com.taivas.settings.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
-public class PluginSystemCommands implements Plugin {
+public class PluginSystemCommands implements MBPlugin {
 
     private static final Logger LOG = LoggerFactory.getLogger(PluginSystemCommands.class);
 
-    private final PluginManager pluginManager;
+    private final MBPluginManager pluginManager;
     private RconClient rcon;
     private Settings settings;
 
-    public PluginSystemCommands(PluginManager pluginManager) {
+    public PluginSystemCommands(MBPluginManager pluginManager) {
         this.pluginManager = pluginManager;
     }
 
@@ -44,27 +43,47 @@ public class PluginSystemCommands implements Plugin {
             return;
         }
 
-        if (message.startsWith("!reload_plugins")) {
-            try {
-                int count = pluginManager.getPlugins().length;
-                rcon.printConAll(String.format("Reloading %d plugins...", count));
-                settings.load();
-                pluginManager.reload(rcon, settings);
-                rcon.printConAll("Reload successful!");
-                SendPluginList();
-            } catch (IOException e) {
-                rcon.printConAll("Something went wrong loading plugins, check the log for more details");
-                LOG.error("Couldn't load server plugins", e);
-            }
+        if (message.startsWith("!start_plugins")) {
+            rcon.printConAll("Starting plugins...");
+            StartPlugins();
+            rcon.printConAll("Successfully started plugins!");
+            return;
+        }
 
+        if (message.startsWith("!stop_plugins")) {
+            rcon.printConAll("Stopping plugins...");
+            StopPlugins();
+            rcon.printConAll("Successfully stopped plugins!");
+            return;
+        }
+
+        if (message.startsWith("!reload_plugins")) {
+            rcon.printConAll("Reloading plugins...");
+            StartPlugins();
+            rcon.printConAll("Successfully reloaded plugins!");
             return;
         }
     }
 
+    private void StartPlugins() {
+        try {
+            settings.load();
+            pluginManager.startPlugins(rcon, settings);
+            SendPluginList();
+        } catch (IOException e) {
+            rcon.printConAll("Something went wrong loading plugins, check the log for more details");
+            LOG.error("Couldn't load server plugins", e);
+        }
+    }
+
+    private void StopPlugins() {
+        pluginManager.stopPlugins();
+    }
+
     private void SendPluginList() {
-        Plugin[] plugins = pluginManager.getPlugins();
+        MBPlugin[] plugins = pluginManager.getPlugins();
         rcon.printConAll(String.format("Server has %d plugins loaded:", plugins.length));
-        for (Plugin plugin : plugins) {
+        for (MBPlugin plugin : plugins) {
             rcon.printConAll(String.format("   - %s", plugin.getPluginName()));
         }
     }
@@ -131,5 +150,6 @@ public class PluginSystemCommands implements Plugin {
 
     @Override
     public void onSmod(SmodEvent smodEvent) {
+
     }
 }
