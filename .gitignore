@@ -78,4 +78,5 @@ nb-configuration.xml
 ##############################
 logs/
 plugins/
-/application.properties
+/*application.properties
+/*.json
