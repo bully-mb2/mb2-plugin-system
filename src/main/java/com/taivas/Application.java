@@ -11,6 +11,7 @@ import com.taivas.settings.SettingsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 
 public class Application {
 
@@ -36,7 +37,19 @@ public class Application {
 
         LOG.info("Loading rcon");
         RconClient rcon = new RconClient();
-        rcon.connect(settings.getAddress("plugin-system.rcon.host"), settings.get("plugin-system.rcon.password"));
+        if (settings.hasProperty("plugin-system.rcon.bind")) {
+            rcon.connect(
+                    settings.getAddress("plugin-system.rcon.host"),
+                    settings.getAddress("plugin-system.rcon.bind"),
+                    settings.get("plugin-system.rcon.password"),
+                    RconClient.DEFAULT_TIMEOUT_MILLISECONDS
+            );
+        } else {
+            rcon.connect(
+                    settings.getAddress("plugin-system.rcon.host"),
+                    settings.get("plugin-system.rcon.password")
+            );
+        }
 
         LOG.info("Loading plugins");
         String pluginPath = settings.get("plugin-system.plugin.path");
